@@ -1,14 +1,17 @@
 // Absolute imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 // Relative imports
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 import useStyles from "./styles";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
+  // Styles
   const classes = useStyles();
+
+  // State
   const [postData, setPostData] = useState({
     author: "",
     title: "",
@@ -16,15 +19,40 @@ const Form = () => {
     tags: "",
     selectedFiles: "",
   });
+
+  // If a post _id is selected, find the post data for the matching _id
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
+  // Event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createPost(postData));
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+
+    clear();
   };
 
-  const clear = () => {};
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      author: "",
+      title: "",
+      body: "",
+      tags: "",
+      selectedFiles: "",
+    });
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -34,7 +62,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Share Recipe</Typography>
+        <Typography variant="h6">
+          {currentId ? "Edit" : "Share"} Recipe
+        </Typography>
         <TextField
           name="author"
           variant="outlined"
@@ -65,11 +95,16 @@ const Form = () => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({
+              ...postData,
+              tags: e.target.value.replace(" ", "").split(","),
+            })
+          }
         />
 
         {/* <div className={classes.fileInput}>
-
+            TODO: upload image data using base64
         </div> */}
 
         <Button
@@ -80,7 +115,7 @@ const Form = () => {
           type="submit"
           fullWidth
         >
-          Submit
+          {currentId ? "SAVE" : "SHARE"}
         </Button>
 
         <Button
@@ -90,7 +125,7 @@ const Form = () => {
           onClick={clear}
           fullWidth
         >
-          Clear
+          CLEAR
         </Button>
       </form>
     </Paper>
