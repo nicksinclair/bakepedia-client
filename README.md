@@ -1,5 +1,9 @@
 # bakepedia-client
 
+This repository hosts the frontend code for Bakepedia. Deployment is handled using Netlify.
+
+The current deployment can be accessed [here!](https://bakepedia.netlify.app/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
