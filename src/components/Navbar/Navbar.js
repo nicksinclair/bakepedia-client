@@ -1,6 +1,7 @@
 // Absolute imports
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 
 // Relative imports
@@ -12,9 +13,32 @@ const Navbar = () => {
   const classes = useStyles();
 
   // State
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const dispatch = useDispatch();
 
-  const handleLogout = () => {};
+  // Routing
+  const history = useHistory();
+  const location = useLocation();
+
+  const handleLogout = () => {
+    try {
+      dispatch({ type: "LOGOUT" });
+
+      // Redirect to home page
+      history.push("/");
+      setUser(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // const token = user?.token;
+
+    // TODO: JWT
+
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">

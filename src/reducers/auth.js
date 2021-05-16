@@ -9,7 +9,9 @@ const reducer = (state = { authData: null }, action) => {
 
       return { ...state, authData: action?.data };
     case LOGOUT:
-      return;
+      localStorage.removeItem("profile");
+
+      return { ...state, authData: null };
     default:
       return state;
   }
