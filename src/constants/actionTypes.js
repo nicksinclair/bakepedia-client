@@ -5,4 +5,6 @@ export const actions = {
   DELETE_ALL: "DELETE",
   FETCH: "FETCH",
   FETCH_ALL: "FETCH_ALL",
+  AUTH: "AUTH",
+  LOGOUT: "LOGOUT",
 };

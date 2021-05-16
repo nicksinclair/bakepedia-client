@@ -10,7 +10,7 @@ export const getPosts = () => async (dispatch) => {
   try {
     const { data } = await api.fetchPosts();
 
-    // Dipatch instead of returning
+    // Dispatch instead of returning
     dispatch({ type: actions.FETCH_ALL, payload: data });
   } catch (error) {
     console.error(error);

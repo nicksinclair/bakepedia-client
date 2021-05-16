@@ -1,5 +1,5 @@
 // Absolute imports
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 
@@ -8,9 +8,11 @@ import useStyles from "./styles";
 // import icon from './images/icon.png';
 
 const Navbar = () => {
+  // Styles
   const classes = useStyles();
 
-  const user = null;
+  // State
+  const [user, setUser] = useState(null);
 
   const handleLogout = () => {};
 
