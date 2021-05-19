@@ -16,7 +16,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import useStyles from "./styles";
 import Icon from "./icon";
-import { signin, signup } from "../../actions/auth";
+import { signIn, signUp } from "../../actions/auth";
 
 const initialState = {
   firstName: "",
@@ -43,9 +43,9 @@ const Auth = () => {
     e.preventDefault();
 
     if (isSignUp) {
-      dispatch(signup(formData, history));
+      dispatch(signUp(formData, history));
     } else {
-      dispatch(signin(formData, history));
+      dispatch(signIn(formData, history));
     }
   };
 
@@ -130,7 +130,8 @@ const Auth = () => {
                 name="confirmPassword"
                 label="Confirm Password"
                 handleChange={handleChange}
-                type="password"
+                handleShowPassword={handleShowPassword}
+                type={showPassword ? "text" : "password"}
               />
             )}
           </Grid>

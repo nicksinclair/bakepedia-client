@@ -7,18 +7,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 import useStyles from "./styles";
 
+const initialPostData = {
+  authorName: "",
+  title: "",
+  body: "",
+  tags: "",
+  selectedFiles: "",
+};
+
 const Form = ({ currentId, setCurrentId }) => {
   // Styles
   const classes = useStyles();
 
   // State
-  const [postData, setPostData] = useState({
-    author: "",
-    title: "",
-    body: "",
-    tags: "",
-    selectedFiles: "",
-  });
+  const [postData, setPostData] = useState(initialPostData);
 
   // If a post _id is selected, find the post data for the matching _id
   const post = useSelector((state) =>
@@ -45,13 +47,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(null);
-    setPostData({
-      author: "",
-      title: "",
-      body: "",
-      tags: "",
-      selectedFiles: "",
-    });
+    setPostData(initialPostData);
   };
 
   return (
@@ -65,14 +61,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Edit" : "Share"} Recipe
         </Typography>
-        <TextField
-          name="author"
-          variant="outlined"
-          label="Author"
-          fullWidth
-          value={postData.author}
-          onChange={(e) => setPostData({ ...postData, author: e.target.value })}
-        />
+
         <TextField
           name="title"
           variant="outlined"
@@ -81,6 +70,7 @@ const Form = ({ currentId, setCurrentId }) => {
           value={postData.title}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
+
         <TextField
           name="body"
           variant="outlined"
@@ -89,6 +79,7 @@ const Form = ({ currentId, setCurrentId }) => {
           value={postData.body}
           onChange={(e) => setPostData({ ...postData, body: e.target.value })}
         />
+
         <TextField
           name="tags"
           variant="outlined"
