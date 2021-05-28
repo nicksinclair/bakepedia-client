@@ -8,7 +8,6 @@ import { createPost, updatePost } from "../../actions/posts";
 import useStyles from "./styles";
 
 const initialPostData = {
-  authorName: "",
   title: "",
   body: "",
   tags: "",
@@ -21,12 +20,15 @@ const Form = ({ currentId, setCurrentId }) => {
 
   // State
   const [postData, setPostData] = useState(initialPostData);
+  const dispatch = useDispatch();
 
   // If a post _id is selected, find the post data for the matching _id
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
-  const dispatch = useDispatch();
+
+  // Retrieve user data from localStorage
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (post) setPostData(post);
@@ -37,9 +39,11 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(
+        updatePost(currentId, { ...postData, authorName: user?.result?.name })
+      );
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, authorName: user?.result?.name }));
     }
 
     clear();
@@ -49,6 +53,17 @@ const Form = ({ currentId, setCurrentId }) => {
     setCurrentId(null);
     setPostData(initialPostData);
   };
+
+  // If user is not logged in, do not let them post
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please sign in to share your own recipes!
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
