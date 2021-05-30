@@ -1,4 +1,4 @@
-# bakepedia-client
+# 👩‍🍳 bakepedia-client
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/cbf90f3c-5a1b-4eb3-9c1a-b5174583f8f1/deploy-status)](https://app.netlify.com/sites/bakepedia/deploys)
 
@@ -6,7 +6,9 @@ This repository hosts the frontend code for Bakepedia. Deployment is handled usi
 
 The current deployment can be accessed [here!](https://bakepedia.netlify.app/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Check out the [server-side code](https://github.com/nicksinclair/bakepedia-server) if you're interested...
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Typical CRA scripts outlined below:
 
 ## Available Scripts
 

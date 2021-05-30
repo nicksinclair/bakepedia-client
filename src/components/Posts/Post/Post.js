@@ -27,6 +27,9 @@ const Post = ({ post, setCurrentId }) => {
   // State
   const dispatch = useDispatch();
 
+  // Retrieve user data from localStorage
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -42,17 +45,20 @@ const Post = ({ post, setCurrentId }) => {
         </Typography>
       </div>
 
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => {
-            setCurrentId(post._id);
-          }}
-        >
-          <MoreHorizIcon fontSize="default" />
-        </Button>
-      </div>
+      {(user?.result?.googleId === post?.authorId ||
+        user?.result?._id === post?.authorId) && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => {
+              setCurrentId(post._id);
+            }}
+          >
+            <MoreHorizIcon fontSize="default" />
+          </Button>
+        </div>
+      )}
 
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary">
@@ -79,21 +85,25 @@ const Post = ({ post, setCurrentId }) => {
         <Button
           size="small"
           color="primary"
+          disabled={!user?.result}
           onClick={() => dispatch(likePost(post._id))}
         >
           <ThumbUpAltIcon fontSize="small" />
-          &nbsp; Like &nbsp;
-          {post.likeCount}
+          &nbsp; Yum! &nbsp;
+          {post.likes.length}
         </Button>
 
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => dispatch(deletePost(post._id))}
-        >
-          <DeleteIcon fontSize="small" />
-          Delete
-        </Button>
+        {(user?.result?.googleId === post?.authorId ||
+          user?.result?._id === post?.authorId) && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => dispatch(deletePost(post._id))}
+          >
+            <DeleteIcon fontSize="small" />
+            Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
+import decode from "jwt-decode";
 
 // Relative imports
+import Emoji from "../Emoji/Emoji";
 import useStyles from "./styles";
 // import icon from './images/icon.png';
 
@@ -32,16 +34,27 @@ const Navbar = () => {
     }
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    // const token = user?.token;
+    const token = user?.token;
 
-    // TODO: JWT
+    /* Check if JWT has expired */
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        handleLogout();
+      }
+    }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
+      <Emoji className="emoji" symbol="👩‍🍳" label="chef" />
+
       <div className={classes.brandContainer}>
         <Typography
           className={classes.heading}

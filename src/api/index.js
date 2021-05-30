@@ -5,7 +5,6 @@ import axios from "axios";
 // Change the baseURL variable if the domain ever changes!
 const baseURL = "https://bakepedia.herokuapp.com";
 // const testURL = "localhost:5000";
-// const url = `${baseURL}/posts`;
 
 const API = axios.create({ baseURL });
 
